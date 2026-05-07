@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advait Kudchadkar | VFX & Editor</title>
+    
+    <link rel="icon" type="image/png" href="heh.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* 1. CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0d1117; }
+        ::-webkit-scrollbar-thumb { 
+            background: #ffd700; 
+            border-radius: 10px; 
+            border: 2px solid #0d1117; 
+        }
+
+        /* 2. GENERAL STYLES */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            background-color: #0d1117;
+            color: #e6edf3;
+            scroll-behavior: smooth;
+        }
+
+        /* 3. HERO VIDEO HEADER & DIP TO WHITE */
+        header {
+            position: relative;
+            height: 60vh;
+            min-height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-color: #001b3b;
+            color: aliceblue;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: white;
+            z-index: 10;
+            pointer-events: none;
+            animation: dipToWhite 1.5s ease-out forwards;
+        }
+
+        @keyframes dipToWhite {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        .hero-video-bg {
+            position: absolute;
+            top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            filter: brightness(0.4); 
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .header-pic {
+            width: 140px; height: 140px;
+            border: 4px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            margin-right: 25px;
+            object-fit: cover;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 4. NAV */
+        nav {
+            background-color: rgba(37, 61, 85, 0.9);
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        nav a {
+            color: aliceblue;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: 600;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        nav a:hover { 
+            color: #ffd700; 
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+        }
+
+        /* 5. LAYOUT & GRID */
+        .container { max-width: 1200px; margin: auto; padding: 40px 20px; }
+        section { margin-bottom: 80px; }
+
+        h2 { 
+            font-size: 2.5rem; 
+            margin-bottom: 30px; 
+            color: #ffd700;
+            text-decoration: underline;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-auto-flow: dense;
+            gap: 20px;
+        }
+
+        .work-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #161b22;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .work-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .work-item video, .work-item img {
+            width: 100%; height: 100%; display: block; object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 27, 59, 0.85);
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .work-item:hover .overlay { opacity: 1; }
+        .wide { grid-column: span 2; }
+
+        /* 6. CARDS */
+        .skills-card, .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: border 0.3s;
+        }
+        .skills-card:hover, .testimonial-card:hover {
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+
+        /* 7. FORM & FOOTER */
+        form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        input {
+            width: 100%; padding: 12px; margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.3); border: 1px solid #30363d;
+            color: white; border-radius: 8px; outline: none;
+        }
+        input:focus { border-color: #ffd700; }
+        input[type="submit"] {
+            background: #ffd700; color: #001b3b; border: none;
+            font-weight: bold; cursor: pointer;
+        }
+
+        footer {
+            background-color: #000c1a;
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid #253d55;
+        }
+        .social-links { margin-top: 20px; }
+        .social-links a {
+            color: #ffd700;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.5rem;
+            transition: transform 0.3s, color 0.3s;
+            display: inline-block;
+        }
+        .social-links a:hover { 
+            transform: scale(1.2);
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .wide { grid-column: span 1; }
+            .header-pic { margin-right: 0; margin-bottom: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <video autoplay muted loop playsinline class="hero-video-bg" id="heroVid">
+        <source src="Video-268.mp4" type="video/mp4">
+    </video>
+    
+    <div class="header-content">
+        <img src="images.jpg" alt="Advait Kudchadkar" class="header-pic">
+        <div>
+            <h1>ADVAIT KUDCHADKAR</h1>
+            <p style="color: #ffd700; letter-spacing: 2px;">VFX ARTIST | EDITOR</p>
+            <div class="social-links" style="margin-top: 10px;">
+                <a href="https://www.instagram.com/adu_universe/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@ADUuniverse" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav>
+    <a href="#about">ABOUT</a>
+    <a href="#projects">VFX WORKS</a>
+    <a href="#maya">3D MODELS</a>
+    <a href="#achievements">ACHIEVEMENTS</a>
+    <a href="#contact">CONTACT</a>
+</nav>
+
+<div class="container">
+    
+    <section id="about" style="display: flex; gap: 40px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px;">
+            <h2>About Me</h2>
+            <p>VFX and Video Editing has been my passion since I was 11 years old. It all started in 2021 when I made my YouTube channel during lockdown. I realized the creative potential editing holds and never looked back.</p>
+        </div>
+
+        <div class="skills-card">
+            <h3 style="color: #ffd700; margin-bottom: 15px;">Expertise</h3>
+            <ul style="list-style: none;">
+                <li>🔥 Visual Effects & CGI</li>
+                <li>✂️ High-End Video Editing</li>
+                <li>🎨 Logo Animation</li>
+            </ul>
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #30363d;">
+            <p style="margin-bottom: 15px;"><strong>Softwares:</strong></p>
+            <div style="display: flex; gap: 18px; align-items: center; flex-wrap: wrap;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Blender_logo_no_text.svg" title="Blender" style="height: 32px; width: auto;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Adobe_Premiere_Pro_CC_icon.svg" title="Premiere Pro" style="height: 32px; width: auto;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg" title="After Effects" style="height: 32px; width: auto;">
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Visual Works</h2>
+        <div class="grid">
+            <div class="work-item"><video src="ob.mp4" poster="cov 1.png" controls></video><div class="overlay">1st place - State level Reel Making Competiton</div></div>
+            <div class="work-item"><video src="St.mp4" poster="cov 2 .png" controls></video><div class="overlay">Stranger Things VFX</div></div>
+            <div class="work-item"><video src="Wed.mp4" poster="cov 3.png" controls></video><div class="overlay">Wednesday VFX</div></div>
+            <div class="work-item"><video src="Mine.mp4" poster="cov 4.png" controls></video><div class="overlay">Minecraft VFX</div></div>
+            <div class="work-item wide"><video src="hail.mp4" controls></video><div class="overlay">Project Hail Mary VFX</div></div> 
+            <div class="work-item wide"><video src="Video-268.mp4" poster="cov 5.png" controls></video><div class="overlay">2024 Showreel</div></div>
+        </div>
+    </section>
+
+    <section id="maya">
+        <h2>3D Modeling in Maya</h2>
+        <div class="grid">
+            <div class="work-item"><img src="m1.png" width = 50px><div ></div></div>
+            <div class="work-item"><img src="m2.png"><div ></div></div>
+        </div>
+    </section>
+
+    <section id="achievements">
+        <h2>Milestones</h2>
+        <div class="grid">
+            <div class="work-item"><img src="11.png"><div class="overlay">Blender Nation-thon </div></div>
+            <div class="work-item"><img src="Screenshot 2026-05-04 155647.png"><div class="overlay">Sanskrit Shortflim Competition</div></div>
+            <div class="work-item"><img src="111.png"><div class="overlay">Science Seminar 2025</div></div>
+            <div class="work-item"><img src="https://bhatikarmodelschool.com/wp-content/uploads/2025/09/Advait-1.jpg"><div class="overlay">DIDAC 2024</div></div>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <h2>Client Feedback</h2>
+        <div class="grid">
+            <div class="testimonial-card">
+                <p style="font-style: italic; margin-bottom: 15px;">"The CGI work was absolutely next level. Brought our vision to life perfectly."</p>
+                <p style="color: #ffd700; font-weight: bold;">— Creative Director</p>
+            </div>
+            <div class="testimonial-card">
+                <p style="font-style: italic; margin-bottom: 15px;">"Professional, fast, and incredibly talented. Best logo animation we've had."</p>
+                <p style="color: #ffd700; font-weight: bold;">— Marketing Lead</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 style="text-align: center;">Work With Me</h2>
+        <form id="RegForm">
+            <input type="text" placeholder="Full Name">
+            <input type="email" placeholder="Email Address">
+            <input type="text" placeholder="Project Details">
+            <input type="submit" value="START PROJECT">
+        </form>
+    </section>
+
+</div>
+
+<footer>
+    <p>Phone: 80107033 | Email: adu.universe@gmail.com</p>
+    <div class="social-links">
+        <a href="https://www.instagram.com/adu_universe/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@ADUuniverse" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+    </div>
+    <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.5;">&copy; 2026 A D U UNIVERSE</p>
+</footer>
+
+<script>
+    var video = document.getElementById('heroVid');
+    // Start video at 17 seconds
+    video.currentTime = 17;
+</script>
+
+</body>
+</html>
